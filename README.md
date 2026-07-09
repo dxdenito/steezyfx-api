@@ -3,8 +3,8 @@
 Steezy fx is a one stop platform for all your forex needs. 
 We have a wide variety of tools, a ton of education and resources that you need in your forex journey.
 
-**Live API:** (coming soon) 
-**Docs:** (coming soon)  
+**Live API:** (coming soon)
+**Docs:** (coming soon) 
 **GitHub:** (coming soon)
 
 ---
