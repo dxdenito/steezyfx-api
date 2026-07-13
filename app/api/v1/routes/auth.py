@@ -8,9 +8,7 @@ from app.repositories.auth_repository import UserRepository
 from app.services.auth_service import UserService
 
 from app.models.user import User, UserRole
-from app.api.v1.deps import require_role
-# in auth_route.py, temporarily
-from app.api.v1.deps import get_current_user
+
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
