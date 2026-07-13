@@ -9,7 +9,6 @@ from app.services.auth_service import UserService
 
 from app.models.user import User, UserRole
 
-
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 

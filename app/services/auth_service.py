@@ -8,18 +8,18 @@ class UserService:
         self.user_repository = user_repository
 
     async def get_user_by_email(self, email: str):
-       
+
         return await self.user_repository.get_user_by_email(email)
 
     async def get_user_by_username(self, username: str):
-    
+
         return await self.user_repository.get_user_by_username(username)
 
     async def verify_password(self, password: str, hashed_password: str) -> bool:
         return verify_password(password, hashed_password)
 
     async def create_user(self, user_data):
-       
+
         existing_user_email = await self.get_user_by_email(user_data.email)
         if existing_user_email:
             raise ValueError("User with this email already exists")

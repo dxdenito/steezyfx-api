@@ -35,7 +35,7 @@ async def get_current_user(
     #    what if no user is found? raise 401 again
 
     # 5. Return the user object
-    
+
     # Decode the token
     payload = decode_access_token(token)
     if payload is None:
@@ -58,14 +58,14 @@ async def get_current_user(
     return user
 
 
-
-
 def require_role(*allowed_roles: UserRole):
     """Returns a dependency that only allows users with one of the given roles."""
+
     async def role_checker(current_user: User = Depends(get_current_user)) -> User:
         # if current_user.role not in allowed_roles: raise 403 (not 401 --
         # think about why these are different status codes)
         if current_user.role not in allowed_roles:
             raise HTTPException(status_code=403, detail="Insufficient permissions")
         return current_user
+
     return role_checker
