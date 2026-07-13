@@ -6,3 +6,4 @@ python-dotenv==1.2.2
 sqlalchemy==2.0.51
 asyncpg==0.31.0
 alembic==1.18.5
+python-jose-3.5.0
