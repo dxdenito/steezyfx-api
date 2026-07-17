@@ -37,4 +37,6 @@ class Tag(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
 
-    posts: Mapped[list["Post"]] = relationship(back_populates="tags")
+    posts: Mapped[list["Post"]] = relationship(
+        secondary="post_tags", back_populates="tags"
+    )
