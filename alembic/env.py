@@ -13,6 +13,8 @@ from app.models.user import User  # noqa: F401 -- registers User with Base.metad
 from app.models import category #noqa: F401 -- registers Category with Base.metadata
 from app.models import post # noqa: F401 -- registers Post with Base.metadata
 from app.models import tag # noqa: F401 -- registers Tag with Base.metadata
+from app.models import trade_execution # noqa: F401 -- registers Trade_execution with Base.metadata
+from app.models import trade_idea # noqa: F401 -- registers trade_idea with Base.metadata
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
