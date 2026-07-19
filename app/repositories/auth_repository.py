@@ -4,6 +4,7 @@ from sqlalchemy.future import select
 from app.schemas.auth_schema import UserCreate
 from app.models.user import User
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import selectinload
 
 
 class UserRepository:
@@ -15,7 +16,7 @@ class UserRepository:
 
         try:
             # 2. Use select statement and await the database execution
-            statement = select(User).where(User.email == email)
+            statement = select(User).options(selectinload(User.profile)).where(User.email == email)
             result = await self.db.execute(statement)
             return result.scalars().first()
         except SQLAlchemyError as e:
@@ -30,7 +31,7 @@ class UserRepository:
 
         try:
             # 3. Use select statement and await the database execution
-            statement = select(User).where(User.username == username)
+            statement = select(User).options(selectinload(User.profile)).where(User.username == username)
             result = await self.db.execute(statement)
             return result.scalars().first()
         except SQLAlchemyError as e:
@@ -51,7 +52,7 @@ class UserRepository:
             # 4. Await commit and refresh for async database calls
             await self.db.commit()
             await self.db.refresh(db_user)
-
+            db_user.profile = None 
             return {"message": "User registered successfully", "user": db_user}
         except SQLAlchemyError as e:
             await self.db.rollback()  # Rollback in case of an error

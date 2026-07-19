@@ -1,5 +1,6 @@
 import re
 from pydantic import BaseModel, EmailStr, Field, field_validator
+from app.schemas.profile_schema import ProfileOut
 
 
 class UserCreate(BaseModel):
@@ -23,12 +24,14 @@ class UserLogin(BaseModel):
     password: str = Field(..., min_length=8, max_length=128)
 
 
+
 class UserOut(BaseModel):
     id: int
     email: EmailStr
     username: str
     role: str
     is_active: bool
+    profile: ProfileOut | None
     model_config = {"from_attributes": True}
 
 
