@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models.post import Post
+    from app.models.profile import Profile
 
 
 class UserRole(enum.Enum):
@@ -49,3 +50,7 @@ class User(Base):
     )
 
     posts: Mapped[list["Post"]] = relationship(back_populates="author")
+
+    profile: Mapped["Profile | None"] = relationship(
+        back_populates="user", uselist=False
+    )
