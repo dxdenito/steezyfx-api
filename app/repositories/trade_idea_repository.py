@@ -100,7 +100,7 @@ class TradeIdeaRepository:
             self.db.add(idea)
             await self.db.commit()
             await self.db.refresh(idea)
-            return idea
+            return await self.get_by_id(idea.id)
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(
@@ -112,7 +112,7 @@ class TradeIdeaRepository:
         try:
             await self.db.commit()
             await self.db.refresh(idea)
-            return idea
+            return await self.get_by_id(idea.id)
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(

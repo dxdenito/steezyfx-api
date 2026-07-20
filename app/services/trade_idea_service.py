@@ -42,6 +42,11 @@ class TradeIdeaService:
             raise ValueError("Trade idea not found")
         if idea.user_id != user_id:
             raise PermissionError("You can only delete your own trade ideas")
+        if idea.executions:
+            raise ValueError(
+                "This idea has linked trade executions and cannot be deleted. "
+                "Delete or unlink the executions first."
+            )
         await self.repo.delete(idea)
 
     async def mark_missed(self, idea_id: int, user_id: int) -> TradeIdea:
