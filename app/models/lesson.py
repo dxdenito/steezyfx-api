@@ -6,12 +6,12 @@ from app.core.database import Base
 
 
 class Lesson(Base):
-    __classname__ = "lessons"
+    __tablename__ = "lessons"
     id: Mapped[int] = mapped_column(
         Integer, primary_key=True, index=True, autoincrement=True
     )
-    module_id: Mapped[int] = mapped_column(ForeignKey("modules.id"), unique=True)
-    title: Mapped[str] = mapped_column(String(255), nullabl=False)
+    module_id: Mapped[int] = mapped_column(ForeignKey("modules.id"))
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
     content: Mapped[str] = mapped_column(Text, nullable=False)
     video_url: Mapped[str | None] = mapped_column(String(255), nullable=True)
     order: Mapped[int] = mapped_column(Integer, nullable=True)

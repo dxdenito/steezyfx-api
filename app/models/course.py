@@ -32,19 +32,19 @@ class Course(Base):
     id: Mapped[int] = mapped_column(
         Integer, primary_key=True, index=True, autoincrement=True
     )
-    tutor_id: Mapped[int] = mapped_column(ForeignKey("users.id"), unique=True)
+    tutor_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     overview: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[CourseStatus] = mapped_column(
-        Enum(CourseStatus, native_enum=False), nullable=False
+        Enum(CourseStatus, native_enum=False), nullable=False, default= CourseStatus.DRAFT
     )
-    rejection_reason: Mapped[str] = mapped_column(String(255), nullable=False)
-    flag_reason: Mapped[str] = mapped_column(String(255), nullable=False)
+    rejection_reason: Mapped[str] = mapped_column(String(255), nullable=True)
+    flag_reason: Mapped[str] = mapped_column(String(255), nullable=True)
     is_free: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
-    price: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False)
-    discount: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False)
+    price: Mapped[Decimal | None] = mapped_column(Numeric(12, 2), nullable=True)
+    discount_percentage: Mapped[Decimal |None] = mapped_column(Numeric(12, 2), nullable=True)
     category_id: Mapped[int] = mapped_column(
-        ForeignKey("catogories.id"), nullable=False, unique=True
+        ForeignKey("categories.id"), nullable=False, unique=True
     )
     published_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), nullable=True

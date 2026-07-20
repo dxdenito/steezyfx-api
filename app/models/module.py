@@ -9,7 +9,7 @@ class Module(Base):
     id: Mapped[int] = mapped_column(
         Integer, primary_key=True, index=True, autoincrement=True
     )
-    course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"), unique=True)
+    course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     order: Mapped[int | None] = mapped_column(Integer, nullable=True)
     description: Mapped[str] = mapped_column(Text, nullable=False)
