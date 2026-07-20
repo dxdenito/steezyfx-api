@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models.post import Post
+    from app.models.course import Course
 
 
 class Category(Base):
@@ -38,3 +39,6 @@ class Category(Base):
     )
 
     posts: Mapped[list["Post"]] = relationship(back_populates="category")
+
+    # in Category (new line to add)
+    courses: Mapped[list["Course"]] = relationship(back_populates="category")

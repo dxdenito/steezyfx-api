@@ -18,6 +18,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from app.models.post import Post
     from app.models.profile import Profile
+    from app.models.course import Course
+    from app.models.enrollment import Enrollment
+    from app.models.lesson_progress import LessonProgress
 
 
 class UserRole(enum.Enum):
@@ -54,3 +57,7 @@ class User(Base):
     profile: Mapped["Profile | None"] = relationship(
         back_populates="user", uselist=False
     )
+
+    courses: Mapped[list["Course"]] = relationship(back_populates="tutor")
+    enrollments: Mapped[list["Enrollment"]] = relationship(back_populates="learner")
+    lesson_progress: Mapped[list["LessonProgress"]] = relationship(back_populates="learner")
