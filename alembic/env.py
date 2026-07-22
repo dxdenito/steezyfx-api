@@ -10,13 +10,31 @@ from alembic import context
 from app.core.config import settings
 from app.core.database import Base
 from app.models.user import User  # noqa: F401 -- registers User with Base.metadata
-from app.models import category #noqa: F401 -- registers Category with Base.metadata
-from app.models import post # noqa: F401 -- registers Post with Base.metadata
-from app.models import tag # noqa: F401 -- registers Tag with Base.metadata
-from app.models import trade_execution # noqa: F401 -- registers Trade_execution with Base.metadata
-from app.models import trade_idea # noqa: F401 -- registers trade_idea with Base.metadata
-from app.models import profile # noqa: F401 -- registers trade_idea with Base.metadata
-
+from app.models import category  # noqa: F401 -- registers Category with Base.metadata
+from app.models import post  # noqa: F401 -- registers Post with Base.metadata
+from app.models import tag  # noqa: F401 -- registers Tag with Base.metadata
+from app.models import (
+    trade_execution,
+)  # noqa: F401 -- registers Trade_execution with Base.metadata
+from app.models import (
+    trade_idea,
+)  # noqa: F401 -- registers trade_idea with Base.metadata
+from app.models import profile  # noqa: F401 -- registers profile with Base.metadata
+from app.models.course import (
+    Course,
+)  # noqa: F401 -- registers course with Base.metadata
+from app.models.enrollment import (
+    Enrollment,
+)  # noqa: F401 -- registers enrollment with Base.metadata
+from app.models.lesson_progress import (
+    LessonProgress,
+)  # noqa: F401 -- registers lesson progress with Base.metadata
+from app.models.module import (
+    Module,
+)  # noqa: F401 -- registers module with Base.metadata
+from app.models.lesson import (
+    Lesson,
+)  # noqa: F401 -- registers lesson with Base.metadata
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

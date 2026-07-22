@@ -9,28 +9,28 @@ if TYPE_CHECKING:
     from app.models.course import Course
     from app.models.lesson import Lesson
 
-    class Module(Base):
-        __tablename__ = "modules"
-        id: Mapped[int] = mapped_column(
-            Integer, primary_key=True, index=True, autoincrement=True
-        )
-        course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
-        title: Mapped[str] = mapped_column(String(255), nullable=False)
-        order: Mapped[int | None] = mapped_column(Integer, nullable=True)
-        description: Mapped[str] = mapped_column(Text, nullable=False)
-        is_active: Mapped[bool] = mapped_column(
-            Boolean, nullable=False, default=True
-        )  # can choose to not show the module if still under construction
-        created_at: Mapped[datetime] = mapped_column(
-            DateTime(timezone=True), server_default=func.now()
-        )
-        updated_at: Mapped[datetime] = mapped_column(
-            DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
-        )
+class Module(Base):
+    __tablename__ = "modules"
+    id: Mapped[int] = mapped_column(
+        Integer, primary_key=True, index=True, autoincrement=True
+    )
+    course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    order: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    is_active: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=True
+    )  # can choose to not show the module if still under construction
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
 
-        # in Module
-        lessons: Mapped[list["Lesson"]] = relationship(back_populates="module")
+    # in Module
+    lessons: Mapped[list["Lesson"]] = relationship(back_populates="module")
 
-        # in Module
-        course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
-        course: Mapped["Course"] = relationship(back_populates="modules")
+    # in Module
+    course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
+    course: Mapped["Course"] = relationship(back_populates="modules")
