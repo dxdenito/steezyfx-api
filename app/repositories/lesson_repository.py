@@ -4,78 +4,73 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
-from app.models.module import Module
+from app.models.lesson import Lesson
 
 
-class ModuleRepository:
+class LessonRepository:
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def get_by_id(self, module_id: int) -> Module | None:
+    async def get_by_id(self, lesson_id: int) -> Lesson | None:
         try:
-            result = self.db.execute(
-                select(Module)
-                .where(Module.id == module_id)
-                .options(selectinload(Module.lessons))
-            )
+            result = self.db.execute(select(Lesson).where(Lesson.id == lesson_id))
             return result.scalars().first()
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error fetching Module: {e}",
+                detail=f"Error fetching Lesson: {e}",
             )
 
-    async def list_by_course(self, course_id: int) -> list[Module]:
+    async def list_by_Module(self, module_id: int) -> list[Lesson]:
         try:
             result = self.db.execute(
-                select(Module)
-                .where(Module.course_id == course_id)
-                .options(selectinload(Module.lessons))
-                .order_by(Module.order.asc)
+                select(Lesson)
+                .where(Lesson.module_id == module_id)
+                .order_by(Lesson.order.asc)
             )
             return result.scalars().all()
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error fetching modules:{e}",
+                detail=f"Error fetching lessons:{e}",
             )
 
-    async def create(self, module: Module) -> Module:
+    async def create(self, lesson: Lesson) -> Lesson:
         try:
-            self.db.add(module)
+            self.db.add(lesson)
             await self.db.commit()
-            await self.db.refresh(module)
-            return await self.get_by_id(module.id)
+            await self.db.refresh(lesson)
+            return await self.get_by_id(lesson.id)
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error occurred while creating module: {e}",
+                detail=f"Error occurred while creating lesson: {e}",
             )
 
-    async def update(self, module: Module) -> Module:
+    async def update(self, lesson: Lesson) -> Lesson:
 
         try:
             await self.db.commit()
-            await self.db.refresh(module)
-            return await self.get_by_id(module.id)
+            await self.db.refresh(lesson)
+            return await self.get_by_id(lesson.id)
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error occurred while updating module: {e}",
+                detail=f"Error occurred while updating lesson: {e}",
             )
 
-    async def delete(self, module: Module) -> None:
+    async def delete(self, lesson: Lesson) -> None:
 
         try:
-            await self.db.delete(module)
+            await self.db.delete(lesson)
             await self.db.commit()
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error occurred while deleting module: {e}",
+                detail=f"Error occurred while deleting lesson: {e}",
             )
