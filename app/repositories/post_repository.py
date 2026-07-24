@@ -13,9 +13,6 @@ class PostRepository:
         self.db = db
 
     async def get_by_id(self, post_id: int) -> Post | None:
-        # select(Post).options(selectinload(...) x3).where(Post.id == post_id)
-        # .execute() -> .scalars().first()
-        ...
         try:
             statement = (
                 select(Post)
@@ -36,8 +33,7 @@ class PostRepository:
             )
 
     async def get_by_slug(self, slug: str) -> Post | None:
-        # same pattern, filter by slug instead
-        ...
+
         try:
             statement = (
                 select(Post)
@@ -58,9 +54,6 @@ class PostRepository:
             )
 
     async def list_published(self, limit: int = 20, offset: int = 0) -> list[Post]:
-        # select(Post).where(Post.status == PostStatus.PUBLISHED)
-        # .options(...) -- this is what the public blog listing calls
-        ...
         try:
             statement = (
                 select(Post)
@@ -133,10 +126,6 @@ class PostRepository:
             )
 
     async def create(self, post: Post) -> Post:
-        # add, commit, refresh -- same pattern as UserRepository.create_user
-        # note: takes an already-built Post object, not raw schema data --
-        # slug generation and tag-linking happen in the SERVICE layer,
-        # repository just persists what it's given
 
         try:
             self.db.add(post)
@@ -151,7 +140,6 @@ class PostRepository:
             )
 
     async def update(self, post: Post) -> Post:
-        # commit + refresh an already-modified Post object
 
         try:
             await self.db.commit()
@@ -165,7 +153,6 @@ class PostRepository:
             )
 
     async def delete(self, post: Post) -> None:
-        # db.delete(post), commit
 
         try:
             await self.db.delete(post)

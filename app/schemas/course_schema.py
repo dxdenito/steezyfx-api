@@ -60,3 +60,4 @@ class CourseOut(BaseModel):
     rejection_reason: str | None
     flag_reason: str | None
     modules: list[ModuleSummary]
+    model_config = {"from_attributes": True}

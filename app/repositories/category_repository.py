@@ -1,7 +1,7 @@
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
-from fastapi import HTTPException, status
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.category import Category
 

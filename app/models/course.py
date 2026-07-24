@@ -67,13 +67,9 @@ class Course(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
 
-    tutor_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     tutor: Mapped["User"] = relationship(back_populates="courses")
 
-    # in Course
-    category_id: Mapped[int | None] = mapped_column(
-        ForeignKey("categories.id"), nullable=True
-    )
+
     category: Mapped["Category | None"] = relationship(back_populates="courses")
 
     # in Course
