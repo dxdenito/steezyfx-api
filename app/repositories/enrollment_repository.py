@@ -64,15 +64,14 @@ class EnrollmentRepository:
                 detail=f"Error occurred while creating enrollment: {e}",
             )
 
-    async def update(self, enrollment: Enrollment) -> Enrollment:
+    async def delete(self, enrollment: Enrollment) -> None:
 
         try:
+            await self.db.delete(enrollment)
             await self.db.commit()
-            await self.db.refresh(enrollment)
-            return enrollment
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error occurred while updating enrollment: {e}",
+                detail=f"Error occurred while deleting enrollment: {e}",
             )
