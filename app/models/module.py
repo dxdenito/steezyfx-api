@@ -32,5 +32,4 @@ class Module(Base):
     lessons: Mapped[list["Lesson"]] = relationship(back_populates="module")
 
     # in Module
-    course_id: Mapped[int] = mapped_column(ForeignKey("courses.id"))
     course: Mapped["Course"] = relationship(back_populates="modules")
