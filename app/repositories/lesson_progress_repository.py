@@ -4,6 +4,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from app.models.lesson_progress import LessonProgress
+from app.models.lesson import Lesson
+from app.models.module import Module
 
 
 class LessonProgressRepository:
@@ -14,14 +16,15 @@ class LessonProgressRepository:
         self, learner_id: int, lesson_id: int
     ) -> LessonProgress | None:
         try:
-            result = self.db.execute(
+            result = await self.db.execute(
                 select(LessonProgress)
                 .where(
                     LessonProgress.learner_id == learner_id,
                     LessonProgress.lesson_id == lesson_id,
                 )
                 .options(
-                    selectinload(LessonProgress.learner), selectinload(LessonProgress.lesson)
+                    selectinload(LessonProgress.learner),
+                    selectinload(LessonProgress.lesson),
                 )
             )
             return result.scalars().first()
@@ -32,20 +35,22 @@ class LessonProgressRepository:
                 detail=f"Error occurred while fetching lesson progress: {e}",
             )
 
-    async def list_by_learner_and_course(self, learner_id: int, course_id) -> LessonProgress | None:
+    async def list_by_learner_and_course(
+        self, learner_id: int, course_id: int
+    ) -> list[LessonProgress]:
         try:
-            result = self.db.execute(
+            statement = (
                 select(LessonProgress)
+                .join(Lesson, LessonProgress.lesson_id == Lesson.id)
+                .join(Module, Lesson.module_id == Module.id)
                 .where(
                     LessonProgress.learner_id == learner_id,
-                    #need help to get course_id
+                    Module.course_id == course_id,
                 )
-                .options(
-                    selectinload(LessonProgress.learner), 
-                    selectinload(LessonProgress.course) #need help to load course 
-                )
+                .options(selectinload(LessonProgress.lesson))
             )
-            return result.scalars().all()
+            result = await self.db.execute(statement)
+            return list(result.scalars().all())
         except SQLAlchemyError as e:
             await self.db.rollback()
             raise HTTPException(

@@ -14,7 +14,7 @@ class EnrollmentRepository:
         self, learner_id: int, course_id: int
     ) -> Enrollment | None:
         try:
-            result = self.db.execute(
+            result = await self.db.execute(
                 select(Enrollment)
                 .where(
                     Enrollment.learner_id == learner_id,
@@ -32,9 +32,9 @@ class EnrollmentRepository:
                 detail=f"Error occurred while fetching enrollment: {e}",
             )
 
-    async def list_by_learner(self, learner_id: int) -> Enrollment | None:
+    async def list_by_learner(self, learner_id: int) -> list[Enrollment] | None:
         try:
-            result = self.db.execute(
+            result = await self.db.execute(
                 select(Enrollment)
                 .where(
                     Enrollment.learner_id == learner_id,

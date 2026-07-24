@@ -13,7 +13,7 @@ class LessonRepository:
 
     async def get_by_id(self, lesson_id: int) -> Lesson | None:
         try:
-            result = self.db.execute(select(Lesson).where(Lesson.id == lesson_id))
+            result = await self.db.execute(select(Lesson).where(Lesson.id == lesson_id))
             return result.scalars().first()
         except SQLAlchemyError as e:
             await self.db.rollback()
@@ -22,12 +22,12 @@ class LessonRepository:
                 detail=f"Error fetching Lesson: {e}",
             )
 
-    async def list_by_Module(self, module_id: int) -> list[Lesson]:
+    async def list_by_module(self, module_id: int) -> list[Lesson]:
         try:
-            result = self.db.execute(
+            result = await self.db.execute(
                 select(Lesson)
                 .where(Lesson.module_id == module_id)
-                .order_by(Lesson.order.asc)
+                .order_by(Lesson.order.asc())
             )
             return result.scalars().all()
         except SQLAlchemyError as e:

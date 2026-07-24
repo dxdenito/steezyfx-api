@@ -13,7 +13,7 @@ class ModuleRepository:
 
     async def get_by_id(self, module_id: int) -> Module | None:
         try:
-            result = self.db.execute(
+            result = await self.db.execute(
                 select(Module)
                 .where(Module.id == module_id)
                 .options(selectinload(Module.lessons))
@@ -28,11 +28,11 @@ class ModuleRepository:
 
     async def list_by_course(self, course_id: int) -> list[Module]:
         try:
-            result = self.db.execute(
+            result = await self.db.execute(
                 select(Module)
                 .where(Module.course_id == course_id)
                 .options(selectinload(Module.lessons))
-                .order_by(Module.order.asc)
+                .order_by(Module.order.asc())
             )
             return result.scalars().all()
         except SQLAlchemyError as e:
